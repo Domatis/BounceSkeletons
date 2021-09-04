@@ -8,6 +8,7 @@ public class Projectiles : MonoBehaviour
    
     [SerializeField] private float secUntilAdjustment = 10;
     [SerializeField] private float speed;
+    [SerializeField] private float damage;
 
     private Rigidbody2D rb;
     private float timer = 0;
@@ -42,15 +43,26 @@ public class Projectiles : MonoBehaviour
         {
             rb.velocity = (rb.velocity + new Vector2(Random.Range(-2f,2f),Random.Range(-2f,-1))).normalized * speed * 1.5f;
         }
+
+        if(other.gameObject.TryGetComponent<Health>(out Health targetHealt))
+        {
+            targetHealt.TakeDamage(damage);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other) 
     {
         if(other.gameObject.CompareTag("ProjectileKiller"))
         {
-            Debug.Log("Projectile Destroyed");
-            Destroy(gameObject);
+            DestroyProjectile();
         }
+    }
+
+    public void DestroyProjectile()
+    {
+        Debug.Log("Projectile Destroyed");
+        Destroy(gameObject);
+        ProjectileSpawner.instance.ProjectileDestroyed();
     }
 
 }

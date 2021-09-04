@@ -5,39 +5,42 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public static PlayerController instance;
-
-    [SerializeField] private int numberOfProjectiles = 5;
-    [SerializeField] private float timeBetweenProjectileSpawn = .2f;
-    [SerializeField] private GameObject playerHolder;
     [SerializeField] private LineRenderer lineRenderer;
-    [SerializeField] private GameObject projectilePrefab;
+    public GameObject playerHolder;
     
     public GameObject hitObject;
     private bool playerControlling = false;
     private Vector2 currentDirection;
-    private int borderLayerMask = 0;
+    private int aimTargetLayerMask = 0;
+
+    [HideInInspector]
+    public bool playerAbleToControl = true;
 
 
-    private bool firingActive = false;
-    private float fireTimer = 0;
-    private int currentLaunchedProjectile = 0;
-
+    private void Awake() 
+    {
+        instance = this;
+    }
 
     private void Start() 
     {
-       borderLayerMask = 1 << LayerMask.NameToLayer("Borders"); //TODO we can change it to player interactable or add another layers to layer bitmask.
+
+        int enemylayermask = 1 << LayerMask.NameToLayer("Enemies");
+        int borderlayermask = 1 <<  LayerMask.NameToLayer("Borders");
+       aimTargetLayerMask = enemylayermask | borderlayermask;   //We'r combining layer mask with enemies and borders together with bit opeparations.
 
        //Set the start position of renderer.
        lineRenderer.transform.position = playerHolder.transform.position;
        lineRenderer.SetPosition(0,Vector3.zero);    //Make sure first position is zero.
        lineRenderer.gameObject.SetActive(false);
-
        hitObject.SetActive(false);
+
+       GameplayManager.instance.TurnSettledAction += () => {playerAbleToControl = true;};
     }
 
     private void Update() 
     {
-        if(playerControlling && !firingActive)
+        if(playerControlling && playerAbleToControl)
         {
             //Calculate the current mouse position and find the direction between position and player.
             Vector3 mouseposition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -46,7 +49,7 @@ public class PlayerController : MonoBehaviour
             Vector3 distance = mouseposition - playerHolder.transform.position;
             currentDirection = distance.normalized;
             //Send ray that direction take the position of hit as last position.
-            RaycastHit2D hitinfo = Physics2D.Raycast(playerHolder.transform.position,currentDirection,Mathf.Infinity,borderLayerMask);
+            RaycastHit2D hitinfo = Physics2D.Raycast(playerHolder.transform.position,currentDirection,Mathf.Infinity,aimTargetLayerMask);
             
             if(hitinfo.collider != null)
             {
@@ -56,30 +59,13 @@ public class PlayerController : MonoBehaviour
             }
             //And make renderer between player position and that position dynamicaly.
         }
-
-
-        if(firingActive)
-        {
-            fireTimer += Time.deltaTime;
-            if(fireTimer >= timeBetweenProjectileSpawn)
-            {
-                GameObject projectile = Instantiate(projectilePrefab,playerHolder.transform.position,Quaternion.identity);
-                projectile.GetComponent<Projectiles>().SetDirection(currentDirection);
-                fireTimer = 0;
-                currentLaunchedProjectile ++;
-                if(currentLaunchedProjectile >= numberOfProjectiles)
-                {
-                    firingActive = false;
-                }
-            }
-            
-        }
+   
     }
 
     private void OnMouseDown() 
     {
         //Player clicked 
-        if(firingActive) return;
+        if(!playerAbleToControl) return;
         playerControlling = true;
         hitObject.SetActive(true);
         lineRenderer.gameObject.SetActive(true);
@@ -93,16 +79,9 @@ public class PlayerController : MonoBehaviour
             playerControlling = false;
             hitObject.SetActive(false);
             lineRenderer.gameObject.SetActive(false);
-            MakeFire();
+            playerAbleToControl = false;    //Turn played for player.
+            ProjectileSpawner.instance.MakeFire(currentDirection);  //Projectiles Fired.
         }
-    }
-
-    public void MakeFire()
-    {
-        //Send projectile to current direction.
-        firingActive = true;
-        currentLaunchedProjectile = 0;
-        fireTimer = timeBetweenProjectileSpawn; //We need to instatiate projectile at first.
     }
 
 }
