@@ -11,7 +11,10 @@ public class ProjectileSpawner : MonoBehaviour
     [SerializeField] private float timeBetweenProjectileSpawn = .2f;
     [SerializeField] private GameObject projectilePrefab;
 
-    private int currentLaunchedProjectile = 0;
+    //TODO create a list for currentactiveprojectiles if it's needed.
+
+    private int currentActiveProjectile = 0;
+    private int currentSpawnedProjectile;
     private float fireTimer;
     private bool firingActive = false;
 
@@ -32,10 +35,12 @@ public class ProjectileSpawner : MonoBehaviour
                 GameObject projectile = Instantiate(projectilePrefab,PlayerController.instance.playerHolder.transform.position,Quaternion.identity);
                 projectile.GetComponent<Projectiles>().SetDirection(currentDirection);
                 fireTimer = 0;
-                currentLaunchedProjectile ++;
-                if(currentLaunchedProjectile >= numberOfProjectiles)
+                currentActiveProjectile ++;
+                currentSpawnedProjectile++;
+                if(currentSpawnedProjectile >= numberOfProjectiles)
                 {
                     firingActive = false;
+                    currentSpawnedProjectile = 0;
                 }
             }
             
@@ -46,14 +51,14 @@ public class ProjectileSpawner : MonoBehaviour
    {
        firingActive = true;
        currentDirection = direction;
-       currentLaunchedProjectile = 0;
+       currentActiveProjectile = 0;
        fireTimer = timeBetweenProjectileSpawn; //We need to instatiate projectile at first.
    }
 
     public void ProjectileDestroyed()
     {
-        currentLaunchedProjectile--;
-        if(currentLaunchedProjectile <= 0)  //There is no more projectiles on scene.
+        currentActiveProjectile--;
+        if(currentActiveProjectile <= 0 && !firingActive)  //There is no more projectiles on scene.
         {
             //send information to gameplay manager.
             GameplayManager.instance.ContinueNextTurn();

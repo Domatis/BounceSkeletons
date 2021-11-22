@@ -5,7 +5,9 @@ using UnityEngine;
 public class GameplayEnemyManager : MonoBehaviour
 {
 
+    
     public static GameplayEnemyManager instance;
+
 
     private List<Enemies> currentEnemies =new List<Enemies>();
 
@@ -15,8 +17,6 @@ public class GameplayEnemyManager : MonoBehaviour
     {
         instance = this;     
     }
-
-
 
     public void EnemiesAdvance(float distance)
     {
@@ -35,6 +35,7 @@ public class GameplayEnemyManager : MonoBehaviour
     public void RemoveEnemy(Enemies enemy)
     {
         currentEnemies.Remove(enemy);
+        if(currentEnemies.Count <= 0 && !EnemySpawnManager.instance.HasSpawnSlot()) GameplayManager.instance.GameWin();
     }
 
     public int GetCurrentEnemyCount()

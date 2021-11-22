@@ -342,7 +342,7 @@ GameObject:
   - component: {fileID: 2939408788230836500}
   - component: {fileID: 2195596233386797589}
   m_Layer: 10
-  m_Name: EnemyPrefab
+  m_Name: BigHealthEnemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -403,7 +403,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 10911, guid: 0000000000000000f000000000000000, type: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.8741453, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -439,12 +439,26 @@ PolygonCollider2D:
   m_Points:
     m_Paths:
     - - {x: -0.050499197, y: 0.069759235}
+      - {x: -0.05799379, y: 0.06937082}
+      - {x: -0.063928865, y: 0.06508711}
+      - {x: -0.06900281, y: 0.058362283}
       - {x: -0.07171201, y: 0.050474092}
       - {x: -0.07401036, y: -0.045764696}
+      - {x: -0.07228484, y: -0.05229936}
+      - {x: -0.06934613, y: -0.058118653}
+      - {x: -0.06567626, y: -0.062149778}
+      - {x: -0.061166655, y: -0.0661063}
+      - {x: -0.05618332, y: -0.069130525}
       - {x: -0.049438056, y: -0.070158005}
       - {x: 0.043920074, y: -0.06860402}
+      - {x: 0.054092195, y: -0.066683054}
+      - {x: 0.05886335, y: -0.06467285}
+      - {x: 0.064369656, y: -0.05996389}
       - {x: 0.065496035, y: -0.05378401}
       - {x: 0.06705001, y: 0.049798068}
+      - {x: 0.06519077, y: 0.058796905}
+      - {x: 0.0623852, y: 0.06529367}
+      - {x: 0.05798169, y: 0.06842451}
       - {x: 0.052928004, y: 0.06963993}
 --- !u!114 &5427193655612947934
 MonoBehaviour:
@@ -458,7 +472,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d9ed0cc75f68bf4e945cf52873a2539, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
   healthImage: {fileID: 622566688013563122}
   healthText: {fileID: 4993029162858972675}
 --- !u!114 &2939408788230836500
@@ -473,7 +486,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b95adba8765291445825a73762aadd9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 10
+  healthProgress: {fileID: 11400000, guid: f12540ee384df354a851a746e7690af2, type: 2}
+  damage: 5
 --- !u!50 &2195596233386797589
 Rigidbody2D:
   serializedVersion: 4

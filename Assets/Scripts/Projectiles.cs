@@ -46,6 +46,8 @@ public class Projectiles : MonoBehaviour
 
         if(other.gameObject.TryGetComponent<Health>(out Health targetHealt))
         {
+            Debug.Log(other.gameObject.name);
+            Debug.Log("Give damage");
             targetHealt.TakeDamage(damage);
         }
     }
@@ -60,7 +62,6 @@ public class Projectiles : MonoBehaviour
 
     public void DestroyProjectile()
     {
-        Debug.Log("Projectile Destroyed");
         Destroy(gameObject);
         ProjectileSpawner.instance.ProjectileDestroyed();
     }

@@ -7,28 +7,26 @@ using System;
 public class Health : MonoBehaviour
 {
    
-    [SerializeField] private float maxHealth = 100f;
+    
     [SerializeField] private Image healthImage;
     [SerializeField] private Text healthText;
 
     public Action healthBecameZero;
 
-
+    private float maxHealth = 100f;
     private float currentHealth;
 
-    private void Start() 
+    public void SetMaxHealth(float health)
     {
+        maxHealth = health;
         currentHealth = maxHealth;
         healthText.text = maxHealth.ToString();
     }
 
 
-
-
     public void TakeDamage(float damageVal)
     {
         //TODO there will be health ui needs to be updated.
-        Debug.Log("Target Got Damage");
         currentHealth -= damageVal;
         currentHealth = Mathf.Max(0f,currentHealth);    //Make sure the smallest value is zero.
         //Update UI Elements
