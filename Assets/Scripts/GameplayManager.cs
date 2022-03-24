@@ -8,44 +8,34 @@ public class GameplayManager : MonoBehaviour
     public static GameplayManager instance;
    
     //TODO Needs to be set while loading.
-    public LevelsInfo currentLevel;
+    
     
     [SerializeField] private float enemyMoveDistance = .75f;
+    [SerializeField] private Health playerHealth;
+    [SerializeField] private Transform playerRightBorder;
+    [SerializeField] private Transform playerLeftBorder;   
 
     public Action TurnSettledAction;
     public Action ContinueNextTurnAction;
     public Action WinGameAction;
+    public Action LoseGameAction;
 
+    private LevelsInfo currentLevel;
 
     public LevelsInfo CurrentLevel {get {return currentLevel;}}
+    public Health PlayerHealth {get{return playerHealth;}}
 
     private void Awake() 
     {
         instance = this;
+        currentLevel = GameDataManager.instance.GetCurrentLevel();
     }
 
     private void Start() 
-    {
+    {   
+        Time.timeScale = 1;     //Always set default at start.
         ContinueNextTurn();
-
-        //float result = 0;
-
-        // for(int i= 44; i > 0 ; i--)
-        // {
-        //     float val = ((float)i)/2;
-            
-        //    /// result += FloatRound(val);
-
-        //     //result += Mathf.Round(i/2);
-        //     result += i;
-        // }
-
-        
-
-       
-        // //Debug.Log(Mathf.Round(2.5f));
-        // Debug.Log(result);
-
+        playerHealth.healthBecameZero += GameLose;
     }
 
     public int FloatRound(float val)
@@ -72,22 +62,43 @@ public class GameplayManager : MonoBehaviour
         if(spawnerHasEnemies)
         {
             EnemySpawnManager.instance.SpawnEnemies();
+            GameplayUIManager.instance.updateLevelUI();
         }
         
         ContinueNextTurnAction?.Invoke();
         TurnSettled();
     }
 
+    public void SkipNextTurn()
+    {
+        ProjectileSpawner.instance.DestroyAllProjectiles();
+    }
+
 
     public void GameWin()
     {
-        Debug.Log("WON GAME");
+        GameDataManager.instance.IncreasePlayerGold(currentLevel.levelPrize);   // Update the player coin value.
+        GameDataManager.instance.LevelCompleted(currentLevel.Level);            // Unlocks levels.
         WinGameAction?.Invoke();
+        GameplayUIManager.instance.GameWinUI();
+    }
+
+    public void GameLose()
+    {
+        Debug.Log("Game Lose");
+        LoseGameAction?.Invoke();
+        GameplayUIManager.instance.GameLoseUI();
     }
 
     public void TurnSettled()
     {
         TurnSettledAction?.Invoke();
+        //Place player cannon randomly.
+        float xPos = UnityEngine.Random.Range(playerLeftBorder.position.x,playerRightBorder.position.x);
+        Vector3 playerPos = PlayerController.instance.playerCannon.transform.position;
+        playerPos.x = xPos;
+        PlayerController.instance.playerCannon.transform.position = playerPos;
+        PlayerController.instance.playerCannon.transform.rotation = Quaternion.identity;
         PlayerController.instance.playerAbleToControl = true;
     }
 

@@ -31,35 +31,49 @@ public class EnemySpawnManager : MonoBehaviour
 
     public void SpawnEnemies()
     {
-       
+        currentSpawnedEnemies = 0;  //Reset this value.
+
+        if(currentTurn == turnCount)
+        {
+            //BOSS spawn because of last turn.
+            Vector3 position = upperLeftPosition.position + (Vector3.right * 2.5f * enemySnap) + (Vector3.up * 0.5f * enemySnap);
+            GameObject bossEnemy = Instantiate(GameplayManager.instance.CurrentLevel.bossPrefab,position,Quaternion.identity);
+            GameplayEnemyManager.instance.AddEnemy(bossEnemy.GetComponent<Enemies>());
+            currentTurn++;
+            return;
+        }
+
         for(int i = 0; i < enemySlotCount; i++)
         {
-            //TODO This system will change.
             //With randomly we will create a enemy at this position or not.
             int randomnum = Random.Range(0,100);    //101 exclusive.
-            if(randomnum < GameplayManager.instance.currentLevel.spawnRate)  // %50 chance to create. 
-            {
-                if(currentSpawnedEnemies >= GameplayManager.instance.currentLevel.maxEnemySpawnAtOneTurn) return;
+            if(randomnum < GameplayManager.instance.CurrentLevel.spawnRate)
+            {   
+                //Check for enemies spawned at maximum count and just return.
+                if(currentSpawnedEnemies >= GameplayManager.instance.CurrentLevel.maxEnemySpawnAtOneTurn)
+                {
+                    currentTurn++;
+                    return;
+                }
                 //SpawnEnemy
-                int spawnIndex = Random.Range(0,GameplayManager.instance.currentLevel.enemyPrefabs.Length);
-                GameObject enemyObj = Instantiate(GameplayManager.instance.currentLevel.enemyPrefabs[spawnIndex],upperLeftPosition.position + (Vector3.right *i * enemySnap),Quaternion.identity);
+                int spawnIndex = Random.Range(0,GameplayManager.instance.CurrentLevel.enemyPrefabs.Length);
+                GameObject enemyObj = Instantiate(GameplayManager.instance.CurrentLevel.enemyPrefabs[spawnIndex],upperLeftPosition.position + (Vector3.right *i * enemySnap),Quaternion.identity);
                 GameplayEnemyManager.instance.AddEnemy(enemyObj.GetComponent<Enemies>());   //Add this enemy to enemy manager.
                 currentSpawnedEnemies++;
             }
-
-            //Also make sure at least one enemy has spawned.
-            if(i == enemySlotCount-1 && currentSpawnedEnemies <= 0 )
-            {
-                //SpawnEnemy
-                int spawnIndex = Random.Range(0,GameplayManager.instance.currentLevel.enemyPrefabs.Length);
-                GameObject enemyObj = Instantiate(GameplayManager.instance.currentLevel.enemyPrefabs[spawnIndex],upperLeftPosition.position + (Vector3.right *i * enemySnap),Quaternion.identity);
-                GameplayEnemyManager.instance.AddEnemy(enemyObj.GetComponent<Enemies>());   //Add this enemy to enemy manager.
-                currentSpawnedEnemies++;
-            }
-
         }
+        //Also make sure at least one enemy has spawned.
+        if(currentSpawnedEnemies == 0 )
+        {
+            //SpawnEnemy
+            int spawnIndex = Random.Range(0,GameplayManager.instance.CurrentLevel.enemyPrefabs.Length);
+            GameObject enemyObj = Instantiate(GameplayManager.instance.CurrentLevel.enemyPrefabs[spawnIndex],upperLeftPosition.position,Quaternion.identity);
+            GameplayEnemyManager.instance.AddEnemy(enemyObj.GetComponent<Enemies>());   //Add this enemy to enemy manager.
+            currentSpawnedEnemies++;
+        }
+
         currentTurn++;
         //Debug.Log(currentSpawnedEnemies.ToString() + " Enemies has spawned");
-        currentSpawnedEnemies = 0;  //Reset this value.
+        
     }
 }

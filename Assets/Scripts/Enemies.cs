@@ -10,7 +10,10 @@ public class Enemies : MonoBehaviour
     public Action movementEnd;
 
     [SerializeField] private EnemyHealthProgress healthProgress;
+    [SerializeField] private GameObject destroyParticleEffect;
+    [SerializeField] private GameObject gateHitParticle;
     [SerializeField] private float damage;
+    [SerializeField] private AudioClip deathSound;
 
     private void Start() 
     {
@@ -21,6 +24,9 @@ public class Enemies : MonoBehaviour
 
     public void DestroyEnemy()
     {
+        //Make death sound.
+        AudioSource.PlayClipAtPoint(deathSound,transform.position);
+        Instantiate(destroyParticleEffect,transform.position,destroyParticleEffect.transform.rotation);
         GameplayEnemyManager.instance.RemoveEnemy(this);
         Destroy(gameObject);
     }
@@ -36,9 +42,10 @@ public class Enemies : MonoBehaviour
         //If collide with player gate take damage to it.
         if(other.gameObject.TryGetComponent<Health>(out Health playerHealth))
         {
-            Debug.Log("Player Damaged");
+            Instantiate(gateHitParticle,transform.position,gateHitParticle.transform.rotation);
             playerHealth.TakeDamage(damage);
             DestroyEnemy();
+            
         }
 
     }

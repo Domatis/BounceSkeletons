@@ -12,9 +12,12 @@ public class Health : MonoBehaviour
     [SerializeField] private Text healthText;
 
     public Action healthBecameZero;
+    public Action takeDamageAction;
 
     private float maxHealth = 100f;
     private float currentHealth;
+
+    public float CurrentHealth {get{return currentHealth;}}
 
     public void SetMaxHealth(float health)
     {
@@ -29,6 +32,7 @@ public class Health : MonoBehaviour
         //TODO there will be health ui needs to be updated.
         currentHealth -= damageVal;
         currentHealth = Mathf.Max(0f,currentHealth);    //Make sure the smallest value is zero.
+        takeDamageAction?.Invoke();
         //Update UI Elements
         healthImage.fillAmount = currentHealth/maxHealth;
         healthText.text = ((int)currentHealth).ToString();  //changing integer before update the text.

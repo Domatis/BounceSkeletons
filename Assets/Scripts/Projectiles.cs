@@ -6,17 +6,35 @@ using UnityEngine;
 public class Projectiles : MonoBehaviour
 {
    
+     
+     public static float damage;
     [SerializeField] private float secUntilAdjustment = 10;
     [SerializeField] private float speed;
-    [SerializeField] private float damage;
+    [SerializeField] private GameObject hitParticle;
+    [SerializeField] private GameObject destroyParticle;
+    [Header("Sounds")]
+    [SerializeField] private AudioSource asource;
+    [SerializeField] private AudioClip releaseSound;
+    [SerializeField] private AudioClip enemyHitSound;
+    [SerializeField] private AudioClip defaultHitSound;
 
     private Rigidbody2D rb;
     private float timer = 0;
     private bool makeIntervention = false;
+    private bool projectileDestroyed = false;
 
     private void Awake() 
     {
         rb = GetComponent<Rigidbody2D>();
+    }
+
+
+    private void Start() 
+    {
+
+        //Make release sound.
+        asource.clip = releaseSound;
+        asource.Play();
     }
 
     private void Update() 
@@ -30,7 +48,11 @@ public class Projectiles : MonoBehaviour
                 makeIntervention = true;
             }
         }
+
+        transform.up = rb.velocity.normalized;
     }
+
+   
 
     public void SetDirection(Vector2 dir)
     {
@@ -46,9 +68,18 @@ public class Projectiles : MonoBehaviour
 
         if(other.gameObject.TryGetComponent<Health>(out Health targetHealt))
         {
-            Debug.Log(other.gameObject.name);
-            Debug.Log("Give damage");
             targetHealt.TakeDamage(damage);
+            //particle part.
+            GameObject particle = Instantiate(hitParticle,other.GetContact(0).point,Quaternion.identity);   
+            particle.transform.up = transform.up;    
+            //Make enemy hit sound.
+            asource.PlayOneShot(enemyHitSound,.3f);
+        }
+
+        else
+        {
+            //other collisions make default hit sound.
+            asource.PlayOneShot(defaultHitSound,.15f);
         }
     }
 
@@ -62,8 +93,11 @@ public class Projectiles : MonoBehaviour
 
     public void DestroyProjectile()
     {
+        if(projectileDestroyed) return; //Prevent the multiple collisions.
+        projectileDestroyed = true;
+        ProjectileSpawner.instance.ProjectileDestroyed(this);
+        Instantiate(destroyParticle,transform.position,destroyParticle.transform.rotation);
         Destroy(gameObject);
-        ProjectileSpawner.instance.ProjectileDestroyed();
     }
 
 }

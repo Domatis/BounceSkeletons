@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9459503b41a497845bb0b71b7eb5c3fa, type: 3}
+  m_Name: Level13
+  m_EditorClassIdentifier: 
+  Level: 13
+  levelPrize: 400
+  spawnRate: 25
+  maxEnemySpawnAtOneTurn: 5
+  enemyPrefabs:
+  - {fileID: 8461615234389768251, guid: 13b283352c9552f40a7f5da9a25acee1, type: 3}
+  - {fileID: 8461615234389768251, guid: 31c04c2ed1561de48b7f238933f25e3c, type: 3}
+  - {fileID: 3568686753168722850, guid: 1d1da205e0073714f81a3c1b1632243d, type: 3}
+  - {fileID: 3071045685020658167, guid: 82700a0b2d7d7bc4c9b7918132e9b4cf, type: 3}
+  bossPrefab: {fileID: 3614450204269420628, guid: 9740f26882015784cb5d67e8d69efdaf,
+    type: 3}

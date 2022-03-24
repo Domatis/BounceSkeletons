@@ -11,6 +11,7 @@ public class GameplayEnemyManager : MonoBehaviour
 
     private List<Enemies> currentEnemies =new List<Enemies>();
 
+    public List<Enemies> CurrentEnemies{get{return currentEnemies;}}
 
 
     private void Awake() 
@@ -35,7 +36,7 @@ public class GameplayEnemyManager : MonoBehaviour
     public void RemoveEnemy(Enemies enemy)
     {
         currentEnemies.Remove(enemy);
-        if(currentEnemies.Count <= 0 && !EnemySpawnManager.instance.HasSpawnSlot()) GameplayManager.instance.GameWin();
+        if(currentEnemies.Count <= 0 && !EnemySpawnManager.instance.HasSpawnSlot() && GameplayManager.instance.PlayerHealth.CurrentHealth >0) GameplayManager.instance.GameWin();
     }
 
     public int GetCurrentEnemyCount()

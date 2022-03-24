@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b8de187437bf94da2f88d73e1c5b90, type: 3}
+  m_Name: playerCannonDamageData
+  m_EditorClassIdentifier: 
+  stats:
+  - costValue: 300
+    statData: 10
+  - costValue: 350
+    statData: 11
+  - costValue: 400
+    statData: 13
+  - costValue: 500
+    statData: 15
+  - costValue: 550
+    statData: 18
+  - costValue: 600
+    statData: 20
+  - costValue: 650
+    statData: 22
+  - costValue: 750
+    statData: 25
+  - costValue: 1000
+    statData: 27
+  - costValue: 0
+    statData: 30

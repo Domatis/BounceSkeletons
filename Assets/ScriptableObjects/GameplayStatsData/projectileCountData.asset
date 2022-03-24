@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b8de187437bf94da2f88d73e1c5b90, type: 3}
+  m_Name: projectileCountData
+  m_EditorClassIdentifier: 
+  stats:
+  - costValue: 400
+    statData: 4
+  - costValue: 500
+    statData: 5
+  - costValue: 600
+    statData: 6
+  - costValue: 750
+    statData: 7
+  - costValue: 900
+    statData: 8
+  - costValue: 1200
+    statData: 9
+  - costValue: 0
+    statData: 10

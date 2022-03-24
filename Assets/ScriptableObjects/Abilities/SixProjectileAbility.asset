@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78fc3970a2f0f8b44935b42d49caaa09, type: 3}
+  m_Name: SixProjectileAbility
+  m_EditorClassIdentifier: 
+  abilitySprite: {fileID: -6069376927496407875, guid: 156a7fa414b59dc499b75c0e710efc26,
+    type: 3}
+  abilityType: 1
+  projectilePrefab: {fileID: 1449730963500962631, guid: c72fd6161fb3a4249b2ef522196c0599,
+    type: 3}
+  leftDownStartPosition: {x: -1.83, y: -4.15, z: 0}
+  distance: 0.75

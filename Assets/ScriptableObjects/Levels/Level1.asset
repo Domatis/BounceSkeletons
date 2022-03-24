@@ -1,3 +1,23 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:496a8d2570b3dcd02e09b4e7529b874734d6836c2a0f108fa0c31d529e41e0ce
-size 716
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9459503b41a497845bb0b71b7eb5c3fa, type: 3}
+  m_Name: Level1
+  m_EditorClassIdentifier: 
+  Level: 1
+  levelPrize: 400
+  spawnRate: 25
+  maxEnemySpawnAtOneTurn: 3
+  enemyPrefabs:
+  - {fileID: 8461615234389768251, guid: 13b283352c9552f40a7f5da9a25acee1, type: 3}
+  - {fileID: 8461615234389768251, guid: 31c04c2ed1561de48b7f238933f25e3c, type: 3}
+  bossPrefab: {fileID: 3614450204269420628, guid: 9740f26882015784cb5d67e8d69efdaf,
+    type: 3}

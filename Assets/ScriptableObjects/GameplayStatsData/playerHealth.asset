@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b8de187437bf94da2f88d73e1c5b90, type: 3}
+  m_Name: playerHealth
+  m_EditorClassIdentifier: 
+  stats:
+  - costValue: 200
+    statData: 50
+  - costValue: 250
+    statData: 55
+  - costValue: 300
+    statData: 60
+  - costValue: 400
+    statData: 65
+  - costValue: 500
+    statData: 70
+  - costValue: 600
+    statData: 75
+  - costValue: 700
+    statData: 80
+  - costValue: 800
+    statData: 95
+  - costValue: 1000
+    statData: 100
+  - costValue: 0
+    statData: 110
